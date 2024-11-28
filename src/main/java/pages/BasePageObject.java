@@ -6,8 +6,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
+import java.util.List;
 import java.time.Duration;
+import java.util.Random;
 
 import static org.junit.Assert.assertEquals;
 
@@ -33,10 +34,8 @@ public class BasePageObject{
     private static final String listQuestion = "accordion__heading-%d";
     //Ответ в списке
     private static final String answer = ".//div[@id='accordion__panel-%d']//p";
-    //Верхняя кнопка Заказать
-    private final By upButtonOrder = By.xpath(".//div[@class='Header_Nav__AGCXC']//button[text()='Заказать']");
-    //Нижняя кнопка Заказать
-    private final By downButtonOrder = By.xpath(".//div[@class='Home_FinishButton__1_cWm']//button");
+    //Кнопка Заказать
+    private final By buttonsOrder = By.xpath(".//button[text()='Заказать']");
 
 
     public BasePageObject(WebDriver driver) {
@@ -103,17 +102,13 @@ public class BasePageObject{
         assertEquals("Текстовка вопросов и ответов отличается от эталонного!", etalonText, questionAnswerText);
     }
 
-    //Метод нажатия на верхнюю кнопку заказать
-    public void clickHeadButtonOrder() {
+    //Метод нажатия на кнопку заказать
+    public void clickButtonOrder() {
         new WebDriverWait(driver, Duration.ofSeconds(5))
-                .until(ExpectedConditions.elementToBeClickable(upButtonOrder));
-        driver.findElement(upButtonOrder).click();
-    }
-
-    //Метод нажатия на нижнюю кнопку Заказать
-    public void clickFootButtonOrder() {
-        new WebDriverWait(driver, Duration.ofSeconds(5))
-                .until(ExpectedConditions.elementToBeClickable(downButtonOrder));
-        driver.findElement(downButtonOrder).click();
+                .until(ExpectedConditions.elementToBeClickable(buttonsOrder));
+        List<WebElement> buttonsElement = driver.findElements(buttonsOrder);
+        Random random = new Random();
+        int randomIndex = random.nextInt(buttonsElement.size());
+        buttonsElement.get(randomIndex).click();
     }
 }

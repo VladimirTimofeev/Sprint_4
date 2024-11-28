@@ -13,6 +13,8 @@ import pages.BookingScooter;
 import pages.OrderPage;
 import pages.RentalСonditions;
 
+import java.sql.Time;
+
 import static org.hamcrest.core.StringContains.containsString;
 import static org.junit.Assert.assertEquals;
 
@@ -58,7 +60,7 @@ public class CheckingScooterOrderTest {
     public void checkOrderSqooterTest() throws InterruptedException {
         BasePageObject basePageObject = new BasePageObject(driver);
         basePageObject.clickCookie();
-        basePageObject.clickHeadButtonOrder();
+        basePageObject.clickButtonOrder();
         BookingScooter bookingSqooter = new BookingScooter(driver);
         String actualTitlePage = bookingSqooter.checkTitlePage();
         assertEquals("Тест упал или неверный заголовок!", "Для кого самокат", actualTitlePage);
@@ -90,6 +92,7 @@ public class CheckingScooterOrderTest {
         String resultTitleCancel = orderPage.checkTitleCancel();
         assertEquals("Тест упал или неверный заголовок!", "Хотите отменить заказ?\n ", resultTitleCancel);
         orderPage.clickButtonCancel();
+        Thread.sleep(500);
         String resultTitleCancelConfirm = orderPage.checkTitleCancel();
         assertEquals("Тест упал или неверный заголовок!", "Заказ отменён\nВозвращайтесь, мы всегда вас ждём :)", resultTitleCancelConfirm);
         orderPage.clickButtonGood();
