@@ -7,6 +7,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import pages.BasePageObject;
 import pages.BookingScooter;
@@ -50,8 +51,8 @@ public class CheckingScooterOrderTest {
 
     @Before
     public void prepare() {
-        driver = new FirefoxDriver();
-//        driver = new ChromeDriver();
+//        driver = new FirefoxDriver();
+        driver = new ChromeDriver();
         driver.manage().window().fullscreen();
         driver.get("https://qa-scooter.praktikum-services.ru/");
     }
