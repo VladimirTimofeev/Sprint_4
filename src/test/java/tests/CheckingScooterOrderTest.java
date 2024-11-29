@@ -51,8 +51,8 @@ public class CheckingScooterOrderTest {
 
     @Before
     public void prepare() {
-//        driver = new FirefoxDriver();
-        driver = new ChromeDriver();
+        driver = new FirefoxDriver();
+//        driver = new ChromeDriver();
         driver.manage().window().fullscreen();
         driver.get("https://qa-scooter.praktikum-services.ru/");
     }
@@ -89,6 +89,8 @@ public class CheckingScooterOrderTest {
         MatcherAssert.assertThat(actualTextOrder, containsString("Заказ оформлен"));
         rentalСonditions.clickButtonStatus();
         OrderPage orderPage = new OrderPage(driver);
+        orderPage.checkDataOrder(name, lastName, address, station, phone, date);
+        Thread.sleep(500);
         orderPage.ckickButtonCancelOrder();
         String resultTitleCancel = orderPage.checkTitleCancel();
         assertEquals("Тест упал или неверный заголовок!", "Хотите отменить заказ?\n ", resultTitleCancel);

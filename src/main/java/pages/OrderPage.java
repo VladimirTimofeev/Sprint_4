@@ -26,6 +26,8 @@ public class OrderPage {
     private final By buttonGood = By.xpath(".//button[text()='Хорошо']");
     //Заголовок отмены заказа
     private final By titleCancelOrger = By.className("Order_ModalHeader__3FDaJ");
+    //Список элементов проверки
+    private String[] nameDataList = {"Имя", "Фамилия", "Адрес", "Станция", "Номер телефона", "Дата доставки", "Комментарий"};
 
 
     public OrderPage(WebDriver driver) {
@@ -34,17 +36,30 @@ public class OrderPage {
 
 
     //Метод записи данных заказа
-    public void checkDataOrder() {
-        String[] dataOrder = new String[9];
+    public void checkDataOrder(String name, String lastName, String adress, String station, String phone, String date) {
+        String[] originalDataList = {name, lastName, adress, station, phone, date};
+        String[] dataOrderList = new String[9];
         int i = 0;
         new WebDriverWait(driver, Duration.ofSeconds(5))
                 .until(ExpectedConditions.visibilityOfElementLocated(checkInputData));
         List<WebElement> recordDataOrder = driver.findElements(checkInputData);
+
         for (WebElement element : recordDataOrder) {
-            dataOrder[i] = element.getText();
+            dataOrderList[i] = element.getText();
             i ++;
         }
-        System.out.println(Arrays.toString(dataOrder));
+
+        for (int j = 0; j < originalDataList.length; j++) {
+            String originalData = originalDataList[j];
+            String dataOrder = dataOrderList[j];
+            if (!originalData.equals(dataOrder)) {
+                System.out.println(nameDataList[j] + " не соответствует введенному!");
+                System.out.println("Введено - " + originalData);
+                System.out.println("В заказе - " + dataOrder);
+            }
+        }
+
+        System.out.println(Arrays.toString(dataOrderList));
     }
 
     //Метод нажатия кнопки Отменить заказ
@@ -59,13 +74,6 @@ public class OrderPage {
         new WebDriverWait(driver, Duration.ofSeconds(5))
                 .until(ExpectedConditions.visibilityOfElementLocated(titleCancelOrger));
         return driver.findElement(titleCancelOrger).getText();
-    }
-
-    //Метод нажатия на кнопку Назад
-    public void clickButtonBack() {
-        new WebDriverWait(driver, Duration.ofSeconds(5))
-                .until(ExpectedConditions.elementToBeClickable(buttonBack));
-        driver.findElement(buttonBack).click();
     }
 
     //Метод нажатия на кнопку Отменить

@@ -83,8 +83,7 @@ public class BasePageObject{
 
     //Метод записи текста вопросов и ответов в массив
     public void recordQuestionAndAnswer() {
-        String[][] questionAnswerText = new String[8][2];
-        for (int i = 0; i < questionAnswerText.length; i++) {
+        for (int i = 0; i < etalonText.length; i++) {
             for (int j = 0; j < 2; j++) {
                 if (j == 0) {
                     String question = checkFAQQuestion(i);
