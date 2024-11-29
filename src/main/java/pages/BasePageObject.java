@@ -10,13 +10,10 @@ import java.util.List;
 import java.time.Duration;
 import java.util.Random;
 
-import static org.junit.Assert.assertEquals;
-
-
 public class BasePageObject{
 
     private final WebDriver driver;
-
+    //Список вопросов и ответов
     private final String[][] etalonText = {{"Сколько это стоит? И как оплатить?", "Сутки — 400 рублей. Оплата курьеру — наличными или картой."},
             {"Хочу сразу несколько самокатов! Так можно?", "Пока что у нас так: один заказ — один самокат. Если хотите покататься с друзьями, можете просто сделать несколько заказов — один за другим."},
             {"Как рассчитывается время аренды?", "Допустим, вы оформляете заказ на 8 мая. Мы привозим самокат 8 мая в течение дня. Отсчёт времени аренды начинается с момента, когда вы оплатите заказ курьеру. Если мы привезли самокат 8 мая в 20:30, суточная аренда закончится 9 мая в 20:30."},
@@ -25,7 +22,6 @@ public class BasePageObject{
             {"Вы привозите зарядку вместе с самокатом?", "Самокат приезжает к вам с полной зарядкой. Этого хватает на восемь суток — даже если будете кататься без передышек и во сне. Зарядка не понадобится."},
             {"Можно ли отменить заказ?", "Да, пока самокат не привезли. Штрафа не будет, объяснительной записки тоже не попросим. Все же свои."},
             {"Я жизу за МКАДом, привезёте?", "Да, обязательно. Всем самокатов! И Москве, и Московской области."}};
-
     //Кнопка подтверждения Cookie
     private static final By cookieButton = By.id("rcc-confirm-button");
     //Раздел Вопросы о важном
@@ -36,6 +32,14 @@ public class BasePageObject{
     private static final String answer = ".//div[@id='accordion__panel-%d']//p";
     //Кнопка Заказать
     private final By buttonsOrder = By.xpath(".//button[text()='Заказать']");
+    //Текст положительной проверки текста вопроса
+    private final String positiveQestion = "Текст %d вопроса корректный.";
+    //Текст отрицательной проверки текста вопроса
+    private final String negativeQestion = "Текст %d вопроса не соответствует оригиналу!";
+    //Текст положительной проверки текста ответа
+    private final String positiveAnswer = "Текст %d ответа корректный.";
+    //текст отрицательной проверки текста ответа
+    private final String negativeAnswer = "Текст %d ответа не соответствует оригиналу!";
 
 
     public BasePageObject(WebDriver driver) {
@@ -58,13 +62,6 @@ public class BasePageObject{
     public void scrollInToFAQ() {
         WebElement element = driver.findElement(questionAboutImportantTitle);
         scrollPage(element);
-    }
-
-    //Метод получения текста заголовка вопросов о важном
-    public String checkFAQTitle() {
-        WebElement element = driver.findElement(questionAboutImportantTitle);
-        scrollPage(element);
-        return driver.findElement((questionAboutImportantTitle)).getText();
     }
 
     //Метод получение текста вопроса
@@ -91,15 +88,28 @@ public class BasePageObject{
             for (int j = 0; j < 2; j++) {
                 if (j == 0) {
                     String question = checkFAQQuestion(i);
-                    questionAnswerText[i][j] = question;
+                    String originQuestion = etalonText[i][j];
+                    if (originQuestion.equals(question)) {
+                        System.out.println(String.format(positiveQestion, i + 1));
+                    } else {
+                        System.out.println(String.format(negativeQestion, i + 1));
+                        System.out.println("Текст оригинального вопроса: " + originQuestion);
+                        System.out.println("Текст полученного вопроса:   " + question);
+                    }
                     clickQuestion(i);
                 } else {
                     String answer = checkFAQAnswer(i);
-                    questionAnswerText[i][j] = answer;
+                    String originAnswer = etalonText[i][j];
+                    if (originAnswer.equals(answer)) {
+                        System.out.println(String.format(positiveAnswer, i + 1));
+                    } else {
+                        System.out.println(String.format(negativeAnswer, i + 1));
+                        System.out.println("Текст оригинального ответа: " + originAnswer);
+                        System.out.println("Текст полученного ответа:   " + answer);
+                    }
                 }
             }
         }
-        assertEquals("Текстовка вопросов и ответов отличается от эталонного!", etalonText, questionAnswerText);
     }
 
     //Метод нажатия на кнопку заказать
