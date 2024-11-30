@@ -6,7 +6,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
-import java.util.Arrays;
 import java.util.List;
 
 public class OrderPage {
@@ -14,8 +13,6 @@ public class OrderPage {
     private final WebDriver driver;
     //Локатор для проверки введенных значений
     private final By checkInputData = By.className("Track_Value__15eEX");
-    //Массив для заполнения занными заказа
-//    private final String[] dataOrder = new String[8];
     //Кнопка отменить заказ
     private final By buttonCancelOrder = By.xpath(".//button[text()='Отменить заказ']");
     //Кнопка всплывающего окна Назад
@@ -36,8 +33,8 @@ public class OrderPage {
 
 
     //Метод записи данных заказа
-    public void checkDataOrder(String name, String lastName, String adress, String station, String phone, String date) {
-        String[] originalDataList = {name, lastName, adress, station, phone, date};
+    public void checkDataOrder(String name, String lastName, String adress, String station, String phone, String date, String period, String color, String comment) {
+        String[] originalDataList = {name, lastName, adress, station, phone, date, period, color, comment};
         String[] dataOrderList = new String[9];
         int i = 0;
         new WebDriverWait(driver, Duration.ofSeconds(5))
@@ -58,8 +55,6 @@ public class OrderPage {
                 System.out.println("В заказе - " + dataOrder);
             }
         }
-
-        System.out.println(Arrays.toString(dataOrderList));
     }
 
     //Метод нажатия кнопки Отменить заказ

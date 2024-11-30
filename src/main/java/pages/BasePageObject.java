@@ -88,9 +88,7 @@ public class BasePageObject{
                 if (j == 0) {
                     String question = checkFAQQuestion(i);
                     String originQuestion = etalonText[i][j];
-                    if (originQuestion.equals(question)) {
-                        System.out.println(String.format(positiveQestion, i + 1));
-                    } else {
+                    if (!originQuestion.equals(question)) {
                         System.out.println(String.format(negativeQestion, i + 1));
                         System.out.println("Текст оригинального вопроса: " + originQuestion);
                         System.out.println("Текст полученного вопроса:   " + question);
@@ -99,9 +97,7 @@ public class BasePageObject{
                 } else {
                     String answer = checkFAQAnswer(i);
                     String originAnswer = etalonText[i][j];
-                    if (originAnswer.equals(answer)) {
-                        System.out.println(String.format(positiveAnswer, i + 1));
-                    } else {
+                    if (!originAnswer.equals(answer)) {
                         System.out.println(String.format(negativeAnswer, i + 1));
                         System.out.println("Текст оригинального ответа: " + originAnswer);
                         System.out.println("Текст полученного ответа:   " + answer);
