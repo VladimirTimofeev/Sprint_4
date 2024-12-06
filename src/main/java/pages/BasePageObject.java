@@ -14,32 +14,32 @@ public class BasePageObject{
 
     private final WebDriver driver;
     //Список вопросов и ответов
-    private final String[][] etalonText = {{"Сколько это стоит? И как оплатить?", "Сутки — 400 рублей. Оплата курьеру — наличными или картой."},
-            {"Хочу сразу несколько самокатов! Так можно?", "Пока что у нас так: один заказ — один самокат. Если хотите покататься с друзьями, можете просто сделать несколько заказов — один за другим."},
-            {"Как рассчитывается время аренды?", "Допустим, вы оформляете заказ на 8 мая. Мы привозим самокат 8 мая в течение дня. Отсчёт времени аренды начинается с момента, когда вы оплатите заказ курьеру. Если мы привезли самокат 8 мая в 20:30, суточная аренда закончится 9 мая в 20:30."},
-            {"Можно ли заказать самокат прямо на сегодня?", "Только начиная с завтрашнего дня. Но скоро станем расторопнее."},
-            {"Можно ли продлить заказ или вернуть самокат раньше?", "Пока что нет! Но если что-то срочное — всегда можно позвонить в поддержку по красивому номеру 1010."},
-            {"Вы привозите зарядку вместе с самокатом?", "Самокат приезжает к вам с полной зарядкой. Этого хватает на восемь суток — даже если будете кататься без передышек и во сне. Зарядка не понадобится."},
-            {"Можно ли отменить заказ?", "Да, пока самокат не привезли. Штрафа не будет, объяснительной записки тоже не попросим. Все же свои."},
-            {"Я жизу за МКАДом, привезёте?", "Да, обязательно. Всем самокатов! И Москве, и Московской области."}};
+//    private final String[][] etalonText = {{"Сколько это стоит? И как оплатить?", "Сутки — 400 рублей. Оплата курьеру — наличными или картой."},
+//            {"Хочу сразу несколько самокатов! Так можно?", "Пока что у нас так: один заказ — один самокат. Если хотите покататься с друзьями, можете просто сделать несколько заказов — один за другим."},
+//            {"Как рассчитывается время аренды?", "Допустим, вы оформляете заказ на 8 мая. Мы привозим самокат 8 мая в течение дня. Отсчёт времени аренды начинается с момента, когда вы оплатите заказ курьеру. Если мы привезли самокат 8 мая в 20:30, суточная аренда закончится 9 мая в 20:30."},
+//            {"Можно ли заказать самокат прямо на сегодня?", "Только начиная с завтрашнего дня. Но скоро станем расторопнее."},
+//            {"Можно ли продлить заказ или вернуть самокат раньше?", "Пока что нет! Но если что-то срочное — всегда можно позвонить в поддержку по красивому номеру 1010."},
+//            {"Вы привозите зарядку вместе с самокатом?", "Самокат приезжает к вам с полной зарядкой. Этого хватает на восемь суток — даже если будете кататься без передышек и во сне. Зарядка не понадобится."},
+//            {"Можно ли отменить заказ?", "Да, пока самокат не привезли. Штрафа не будет, объяснительной записки тоже не попросим. Все же свои."},
+//            {"Я жизу за МКАДом, привезёте?", "Да, обязательно. Всем самокатов! И Москве, и Московской области."}};
     //Кнопка подтверждения Cookie
     private static final By cookieButton = By.id("rcc-confirm-button");
     //Раздел Вопросы о важном
     private static final By questionAboutImportantTitle = By.xpath(".//div[text()='Вопросы о важном']");
     //Вопрос в списке
-    private static final String listQuestion = "accordion__heading-%d";
+//    private static final String listQuestion = "accordion__heading-%d";
     //Ответ в списке
-    private static final String answer = ".//div[@id='accordion__panel-%d']//p";
+//    private static final String answer = ".//div[@id='accordion__panel-%d']//p";
     //Кнопка Заказать
     private final By buttonsOrder = By.xpath(".//button[text()='Заказать']");
     //Текст положительной проверки текста вопроса
-    private final String positiveQestion = "Текст %d вопроса корректный.";
+//    private final String positiveQestion = "Текст %d вопроса корректный.";
     //Текст отрицательной проверки текста вопроса
-    private final String negativeQestion = "Текст %d вопроса не соответствует оригиналу!";
+//    private final String negativeQestion = "Текст %d вопроса не соответствует оригиналу!";
     //Текст положительной проверки текста ответа
-    private final String positiveAnswer = "Текст %d ответа корректный.";
+//    private final String positiveAnswer = "Текст %d ответа корректный.";
     //текст отрицательной проверки текста ответа
-    private final String negativeAnswer = "Текст %d ответа не соответствует оригиналу!";
+//    private final String negativeAnswer = "Текст %d ответа не соответствует оригиналу!";
 
 
     public BasePageObject(WebDriver driver) {
@@ -65,47 +65,51 @@ public class BasePageObject{
     }
 
     //Метод получение текста вопроса
-    public String checkFAQQuestion(int itemIndex) {
-        return driver.findElement(By.id(String.format(listQuestion, itemIndex))).getText();
+    public String checkFAQQuestion(String quastionUrl) {
+        new WebDriverWait(driver, Duration.ofSeconds(5))
+                .until(ExpectedConditions.elementToBeClickable(By.id(quastionUrl)));
+        return driver.findElement(By.id(quastionUrl)).getText();
     }
 
     //Метод нажатия на вопрос
-    public void clickQuestion(int itemIndex) {
+    public void clickQuestion(String quastionUrl) {
         new WebDriverWait(driver, Duration.ofSeconds(5))
-                .until(ExpectedConditions.elementToBeClickable(By.id(String.format(listQuestion, itemIndex))));
-        driver.findElement(By.id(String.format(listQuestion, itemIndex))).click();
+                .until(ExpectedConditions.elementToBeClickable(By.id(quastionUrl)));
+        driver.findElement(By.id(quastionUrl)).click();
     }
 
     //Метод пролучения текста ответа
-    public String checkFAQAnswer(int itemIndex) {
-        return driver.findElement(By.xpath(String.format(answer, itemIndex))).getText();
+    public String checkFAQAnswer(String answer) {
+        new WebDriverWait(driver, Duration.ofSeconds(5))
+                .until(ExpectedConditions.visibilityOfElementLocated(By.xpath(answer)));
+        return driver.findElement(By.xpath(answer)).getText();
     }
 
     //Метод записи текста вопросов и ответов в массив
-    public void recordQuestionAndAnswer() {
-        for (int i = 0; i < etalonText.length; i++) {
-            for (int j = 0; j < 2; j++) {
-                if (j == 0) {
-                    String question = checkFAQQuestion(i);
-                    String originQuestion = etalonText[i][j];
-                    if (!originQuestion.equals(question)) {
-                        System.out.println(String.format(negativeQestion, i + 1));
-                        System.out.println("Текст оригинального вопроса: " + originQuestion);
-                        System.out.println("Текст полученного вопроса:   " + question);
-                    }
-                    clickQuestion(i);
-                } else {
-                    String answer = checkFAQAnswer(i);
-                    String originAnswer = etalonText[i][j];
-                    if (!originAnswer.equals(answer)) {
-                        System.out.println(String.format(negativeAnswer, i + 1));
-                        System.out.println("Текст оригинального ответа: " + originAnswer);
-                        System.out.println("Текст полученного ответа:   " + answer);
-                    }
-                }
-            }
-        }
-    }
+//    public void recordQuestionAndAnswer() {
+//        for (int i = 0; i < etalonText.length; i++) {
+//            for (int j = 0; j < 2; j++) {
+//                if (j == 0) {
+//                    String question = checkFAQQuestion(i);
+//                    String originQuestion = etalonText[i][j];
+//                    if (!originQuestion.equals(question)) {
+//                        System.out.println(String.format(negativeQestion, i + 1));
+//                        System.out.println("Текст оригинального вопроса: " + originQuestion);
+//                        System.out.println("Текст полученного вопроса:   " + question);
+//                    }
+//                    clickQuestion(i);
+//                } else {
+//                    String answer = checkFAQAnswer(i);
+//                    String originAnswer = etalonText[i][j];
+//                    if (!originAnswer.equals(answer)) {
+//                        System.out.println(String.format(negativeAnswer, i + 1));
+//                        System.out.println("Текст оригинального ответа: " + originAnswer);
+//                        System.out.println("Текст полученного ответа:   " + answer);
+//                    }
+//                }
+//            }
+//        }
+//    }
 
     //Метод нажатия на кнопку заказать
     public void clickButtonOrder() {
