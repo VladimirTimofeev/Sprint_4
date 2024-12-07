@@ -23,15 +23,15 @@ public class BasePageObject{
 //            {"Можно ли отменить заказ?", "Да, пока самокат не привезли. Штрафа не будет, объяснительной записки тоже не попросим. Все же свои."},
 //            {"Я жизу за МКАДом, привезёте?", "Да, обязательно. Всем самокатов! И Москве, и Московской области."}};
     //Кнопка подтверждения Cookie
-    private static final By cookieButton = By.id("rcc-confirm-button");
+    private static final By COOKIEBUTTON = By.id("rcc-confirm-button");
     //Раздел Вопросы о важном
-    private static final By questionAboutImportantTitle = By.xpath(".//div[text()='Вопросы о важном']");
+    private static final By QUESTIONABOUTIMPORTANTTITLE = By.xpath(".//div[text()='Вопросы о важном']");
     //Вопрос в списке
-//    private static final String listQuestion = "accordion__heading-%d";
+    private final String QUESTION = "accordion__heading-%d";
     //Ответ в списке
-//    private static final String answer = ".//div[@id='accordion__panel-%d']//p";
+    private final String ANSWER = ".//div[@id='accordion__panel-%d']//p";
     //Кнопка Заказать
-    private final By buttonsOrder = By.xpath(".//button[text()='Заказать']");
+    private final By BUTTONSORDER = By.xpath(".//button[text()='Заказать']");
     //Текст положительной проверки текста вопроса
 //    private final String positiveQestion = "Текст %d вопроса корректный.";
     //Текст отрицательной проверки текста вопроса
@@ -54,36 +54,36 @@ public class BasePageObject{
     //Метод согласия с Cookie
     public void clickCookie() {
         new WebDriverWait(driver, Duration.ofSeconds(10))
-                .until(ExpectedConditions.elementToBeClickable(((cookieButton))));
-        driver.findElement(cookieButton).click();
+                .until(ExpectedConditions.elementToBeClickable(((COOKIEBUTTON))));
+        driver.findElement(COOKIEBUTTON).click();
     }
 
     //Метод прокрутки страницы до раздела Вопросы о важном
     public void scrollInToFAQ() {
-        WebElement element = driver.findElement(questionAboutImportantTitle);
+        WebElement element = driver.findElement(QUESTIONABOUTIMPORTANTTITLE);
         scrollPage(element);
     }
 
     //Метод получение текста вопроса
-    public String checkFAQQuestion(String quastionUrl) {
+    public String checkFAQQuestion(int number) {
         new WebDriverWait(driver, Duration.ofSeconds(5))
-                .until(ExpectedConditions.elementToBeClickable(By.id(quastionUrl)));
-        return driver.findElement(By.id(quastionUrl)).getText();
+                .until(ExpectedConditions.elementToBeClickable(By.id(String.format(QUESTION, number))));
+        return driver.findElement(By.id(String.format(QUESTION, number))).getText();
     }
 
     //Метод нажатия на вопрос
-    public void clickQuestion(String quastionUrl) {
+    public void clickQuestion(int numberQuestion) {
         new WebDriverWait(driver, Duration.ofSeconds(5))
-                .until(ExpectedConditions.elementToBeClickable(By.id(quastionUrl)));
-        driver.findElement(By.id(quastionUrl)).click();
+                .until(ExpectedConditions.elementToBeClickable(By.id(String.format(QUESTION, numberQuestion))));
+        driver.findElement(By.id(String.format(QUESTION, numberQuestion))).click();
     }
 
     //Метод пролучения текста ответа
-    public String checkFAQAnswer(String answer) {
+    public String checkFAQAnswer(int numberAnswer) {
         new WebDriverWait(driver, Duration.ofSeconds(5))
-                .until(ExpectedConditions.visibilityOfElementLocated(By.xpath(answer)));
-        return driver.findElement(By.xpath(answer)).getText();
-    }
+                .until(ExpectedConditions.visibilityOfElementLocated(By.xpath(String.format(ANSWER, numberAnswer))));
+        return driver.findElement(By.xpath(String.format(ANSWER, numberAnswer))).getText();
+    };
 
     //Метод записи текста вопросов и ответов в массив
 //    public void recordQuestionAndAnswer() {
@@ -114,8 +114,8 @@ public class BasePageObject{
     //Метод нажатия на кнопку заказать
     public void clickButtonOrder() {
         new WebDriverWait(driver, Duration.ofSeconds(5))
-                .until(ExpectedConditions.elementToBeClickable(buttonsOrder));
-        List<WebElement> buttonsElement = driver.findElements(buttonsOrder);
+                .until(ExpectedConditions.elementToBeClickable(BUTTONSORDER));
+        List<WebElement> buttonsElement = driver.findElements(BUTTONSORDER);
         Random random = new Random();
         int randomIndex = random.nextInt(buttonsElement.size());
         buttonsElement.get(randomIndex).click();
