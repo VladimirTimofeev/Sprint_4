@@ -6,9 +6,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import java.util.List;
 import java.time.Duration;
-import java.util.Random;
 
 public class BasePageObject{
 
@@ -30,8 +28,10 @@ public class BasePageObject{
     private final String QUESTION = "accordion__heading-%d";
     //Ответ в списке
     private final String ANSWER = ".//div[@id='accordion__panel-%d']//p";
-    //Кнопка Заказать
-    private final By BUTTONSORDER = By.xpath(".//button[text()='Заказать']");
+    //Кнопка Заказать верхняя
+    private final By BUTTONORDERUP = By.xpath(".//div[@class='Header_Nav__AGCXC']//button[text()='Заказать']");
+    //Кнопка Заказать нижняя
+    private final By BUTTONORDERDOWN = By.xpath(".//div[@class='Home_FinishButton__1_cWm']//button[text()='Заказать']");
     //Текст положительной проверки текста вопроса
 //    private final String positiveQestion = "Текст %d вопроса корректный.";
     //Текст отрицательной проверки текста вопроса
@@ -112,12 +112,18 @@ public class BasePageObject{
 //    }
 
     //Метод нажатия на кнопку заказать
-    public void clickButtonOrder() {
-        new WebDriverWait(driver, Duration.ofSeconds(5))
-                .until(ExpectedConditions.elementToBeClickable(BUTTONSORDER));
-        List<WebElement> buttonsElement = driver.findElements(BUTTONSORDER);
-        Random random = new Random();
-        int randomIndex = random.nextInt(buttonsElement.size());
-        buttonsElement.get(randomIndex).click();
+    public void clickButtonOrderBase(int bottonOrder) {
+        switch (bottonOrder) {
+            case 1:
+                new WebDriverWait(driver, Duration.ofSeconds(5))
+                        .until(ExpectedConditions.elementToBeClickable(BUTTONORDERUP));
+                driver.findElement(BUTTONORDERUP).click();
+                break;
+            case 2:
+                new WebDriverWait(driver, Duration.ofSeconds(5))
+                        .until(ExpectedConditions.elementToBeClickable(BUTTONORDERDOWN));
+                driver.findElement(BUTTONORDERDOWN).click();
+                break;
+        }
     }
 }

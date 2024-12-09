@@ -40,8 +40,10 @@ public class BookingScooter {
     private final By commentElement = By.xpath(".//input[@placeholder='Комментарий для курьера']");
     //Кнопка Назад
     private final By back = By.xpath(".//button[text()='Назад']");
-    //Кнопка Заказать
-    private final By order = By.xpath(".//div//button[text()='Заказать']");
+    //Кнопка Заказать верхняя
+    private final By BUTTONORDERUP = By.xpath(".//div[@class='Header_Nav__AGCXC']//button[text()='Заказать']");
+    //Кнопка Заказать нижняя
+    private final By BUTTONORDERDOWN = By.xpath(".//div[@class='Order_Buttons__1xGrp']//button[text()='Заказать']");
     //Кнопка Нет
     private final By buttonNo = By.xpath(".//button[text()='Нет']");
     //Кнопка Да
@@ -162,13 +164,19 @@ public class BookingScooter {
     }
 
     //Метод нажатия кнопки Заказать
-    public void clickButtonOrder() {
-        new WebDriverWait(driver, Duration.ofSeconds(10))
-                .until(ExpectedConditions.elementToBeClickable(order));
-        List<WebElement> listButtonOrder = driver.findElements(order);
-        Random random = new Random();
-        int randomIndex = random.nextInt(listButtonOrder.size());
-        listButtonOrder.get(randomIndex).click();
+    public void clickButtonOrderBook(int bottonOrder) {
+        switch (bottonOrder) {
+            case 1:
+                new WebDriverWait(driver, Duration.ofSeconds(5))
+                        .until(ExpectedConditions.elementToBeClickable(BUTTONORDERUP));
+                driver.findElement(BUTTONORDERUP).click();
+                break;
+            case 2:
+                new WebDriverWait(driver, Duration.ofSeconds(5))
+                        .until(ExpectedConditions.elementToBeClickable(BUTTONORDERDOWN));
+                driver.findElement(BUTTONORDERDOWN).click();
+                break;
+        }
     }
 
     //Метод нажатия кнопки Нет

@@ -8,6 +8,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
+
 public class OrderPage {
 
     private final WebDriver driver;
@@ -24,7 +26,7 @@ public class OrderPage {
     //Заголовок отмены заказа
     private final By titleCancelOrger = By.className("Order_ModalHeader__3FDaJ");
     //Список элементов проверки
-    private String[] nameDataList = {"Имя", "Фамилия", "Адрес", "Станция", "Номер телефона", "Дата доставки", "Комментарий"};
+    private String[] nameDataList = {"Имя", "Фамилия", "Адрес", "Станция", "Номер телефона", "Дата доставки", "Период аренды", "Цвет самоката", "Комментарий"};
 
 
     public OrderPage(WebDriver driver) {
@@ -55,6 +57,7 @@ public class OrderPage {
                 System.out.println("В заказе - " + dataOrder);
             }
         }
+        assertEquals(originalDataList, dataOrderList);
     }
 
     //Метод нажатия кнопки Отменить заказ

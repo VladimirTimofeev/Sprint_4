@@ -18,6 +18,7 @@ import static org.junit.Assert.assertEquals;
 @RunWith(Parameterized.class)
 public class CheckingScooterOrderTest {
     private WebDriver driver;
+    private final int BOTTONORDERBASE;
     private final String name;
     private final String lastName;
     private final String address;
@@ -25,8 +26,10 @@ public class CheckingScooterOrderTest {
     private final String phone;
     private final String date;
     private final String comment;
+    private final int BOTTONORDERBOOKING;
 
-    public CheckingScooterOrderTest(String name, String lastName, String adress, String station, String phone, String date, String comment) {
+    public CheckingScooterOrderTest(int bottonorderbase, String name, String lastName, String adress, String station, String phone, String date, String comment, int bottonorderbooking) {
+        BOTTONORDERBASE = bottonorderbase;
         this.name = name;
         this.lastName = lastName;
         this.address = adress;
@@ -34,13 +37,14 @@ public class CheckingScooterOrderTest {
         this.phone = phone;
         this.date = date;
         this.comment = comment;
+        BOTTONORDERBOOKING = bottonorderbooking;
     }
 
     @Parameterized.Parameters
     public static Object[][] getDataOrder() {
         return new Object[][] {
-                {"Иван", "Иванов", "Москва, ул. Тветская, д. 8", "Красносельская", "+79998887766", "15.12.2024", "К первому подъезду"},
-                {"Петр", "Петров", "Москва, пр. Мира", "Сокольники", "+71112223366", "20.10.2024", "Положить в гараж"},
+                {1, "Иван", "Иванов", "Москва, ул. Тветская, д. 8", "Красносельская", "+79998887766", "15.12.2024", "К первому подъезду", 1},
+                {2, "Петр", "Петров", "Москва, пр. Мира", "Сокольники", "+71112223366", "20.10.2024", "Положить в гараж", 2},
         };
     }
 
@@ -57,7 +61,7 @@ public class CheckingScooterOrderTest {
     public void checkOrderSqooterTest() throws InterruptedException {
         BasePageObject basePageObject = new BasePageObject(driver);
         basePageObject.clickCookie();
-        basePageObject.clickButtonOrder();
+        basePageObject.clickButtonOrderBase(BOTTONORDERBASE);
         BookingScooter bookingSqooter = new BookingScooter(driver);
         String actualTitlePage = bookingSqooter.checkTitlePage();
         assertEquals("Тест упал или неверный заголовок!", "Для кого самокат", actualTitlePage);
@@ -75,9 +79,7 @@ public class CheckingScooterOrderTest {
         bookingSqooter.inputComment(comment);
         bookingSqooter.clickBack();
         bookingSqooter.enterbuttonFurther();
-        bookingSqooter.clickButtonOrder();
-        bookingSqooter.clickButtonNo();
-        bookingSqooter.clickButtonOrder();
+        bookingSqooter.clickButtonOrderBook(BOTTONORDERBOOKING);
         bookingSqooter.clickButtonYes();
         bookingSqooter.checkTextOrder();
         String actualTextOrder = bookingSqooter.checkTextOrder();
