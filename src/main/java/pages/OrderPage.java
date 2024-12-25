@@ -35,29 +35,29 @@ public class OrderPage {
 
 
     //Метод записи данных заказа
-    public void checkDataOrder(String name, String lastName, String adress, String station, String phone, String date, String period, String color, String comment) {
-        String[] originalDataList = {name, lastName, adress, station, phone, date, period, color, comment};
-        String[] dataOrderList = new String[9];
+    public String[] checkDataOrder(String name, String lastName, String adress, String station, String phone, String date, String period, String color, String comment) {
+        String[] expectedData = {name, lastName, adress, station, phone, date, period, color, comment};
+        String[] actualDataOrder = new String[9];
         int i = 0;
         new WebDriverWait(driver, Duration.ofSeconds(5))
                 .until(ExpectedConditions.visibilityOfElementLocated(checkInputData));
         List<WebElement> recordDataOrder = driver.findElements(checkInputData);
 
         for (WebElement element : recordDataOrder) {
-            dataOrderList[i] = element.getText();
+            actualDataOrder[i] = element.getText();
             i ++;
         }
 
-        for (int j = 0; j < originalDataList.length; j++) {
-            String originalData = originalDataList[j];
-            String dataOrder = dataOrderList[j];
+        for (int j = 0; j < expectedData.length; j++) {
+            String originalData = expectedData[j];
+            String dataOrder = actualDataOrder[j];
             if (!originalData.equals(dataOrder)) {
                 System.out.println(nameDataList[j] + " не соответствует введенному!");
                 System.out.println("Введено - " + originalData);
                 System.out.println("В заказе - " + dataOrder);
             }
         }
-        assertEquals(originalDataList, dataOrderList);
+        return actualDataOrder;
     }
 
     //Метод нажатия кнопки Отменить заказ

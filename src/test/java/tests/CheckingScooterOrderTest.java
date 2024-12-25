@@ -13,6 +13,7 @@ import pages.BookingScooter;
 import pages.OrderPage;
 
 import static org.hamcrest.core.StringContains.containsString;
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(Parameterized.class)
@@ -86,7 +87,9 @@ public class CheckingScooterOrderTest {
         MatcherAssert.assertThat(actualTextOrder, containsString("Заказ оформлен"));
         bookingSqooter.clickButtonStatus();
         OrderPage orderPage = new OrderPage(driver);
-        orderPage.checkDataOrder(name, lastName, address, station, phone, date, period, color, comment);
+        String[] expectedData = {name, lastName, address, station, phone, date, period, color, comment};
+        String[] actualData = orderPage.checkDataOrder(name, lastName, address, station, phone, date, period, color, comment);
+        assertArrayEquals(expectedData, actualData);
         orderPage.ckickButtonCancelOrder();
         String resultTitleCancel = orderPage.checkTitleCancel();
         assertEquals("Тест упал или неверный заголовок!", "Хотите отменить заказ?\n ", resultTitleCancel);
