@@ -69,32 +69,6 @@ public class BasePageObject{
         return driver.findElement(By.xpath(String.format(ANSWER, numberAnswer))).getText();
     };
 
-    //Метод записи текста вопросов и ответов в массив
-//    public void recordQuestionAndAnswer() {
-//        for (int i = 0; i < etalonText.length; i++) {
-//            for (int j = 0; j < 2; j++) {
-//                if (j == 0) {
-//                    String question = checkFAQQuestion(i);
-//                    String originQuestion = etalonText[i][j];
-//                    if (!originQuestion.equals(question)) {
-//                        System.out.println(String.format(negativeQestion, i + 1));
-//                        System.out.println("Текст оригинального вопроса: " + originQuestion);
-//                        System.out.println("Текст полученного вопроса:   " + question);
-//                    }
-//                    clickQuestion(i);
-//                } else {
-//                    String answer = checkFAQAnswer(i);
-//                    String originAnswer = etalonText[i][j];
-//                    if (!originAnswer.equals(answer)) {
-//                        System.out.println(String.format(negativeAnswer, i + 1));
-//                        System.out.println("Текст оригинального ответа: " + originAnswer);
-//                        System.out.println("Текст полученного ответа:   " + answer);
-//                    }
-//                }
-//            }
-//        }
-//    }
-
     //Метод нажатия на кнопку заказать
     public void clickButtonOrderBase(int bottonOrder) {
         switch (bottonOrder) {
